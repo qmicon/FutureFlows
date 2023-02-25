@@ -1,55 +1,18 @@
 {
-	"contracts": {
-		"NonFungibleToken": {
-			"aliases": {
-				"emulator": "f8d6e0586b0a20c7"
-			}
-		},
-		"FlowToken": {
-			"aliases": {
-				"emulator": "0ae53cb6e3f42a79"
-			}
-		},
-		"FungibleToken": {
-			"aliases": {
-				"emulator": "ee82856bf20e2aa6"
-			}
-		},
-		"FUSD": {
-			"aliases": {
-				"emulator": "f8d6e0586b0a20c7"
-			}
-		},
-		"MetadataViews": {
-			"aliases": {
-				"emulator": "f8d6e0586b0a20c7"
-			}
-		},
-		"ExampleNFT": {
-			"aliases": {
-				"emulator": "f8d6e0586b0a20c7"
-			}
-		},
-		"NFTStorefrontV2": {
-			"aliases": {
-				"emulator": "f8d6e0586b0a20c7"
-			}
-		},
-		"NFTStorefront": {
-			"aliases": {
-				"emulator": "f8d6e0586b0a20c7"
-			}
-		}
-	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
 		"mainnet": "access.mainnet.nodes.onflow.org:9000",
+		"sandboxnet": "access.sandboxnet.nodes.onflow.org:9000",
 		"testnet": "access.devnet.nodes.onflow.org:9000"
 	},
 	"accounts": {
+		"deployer": {
+			"address": "5cc5b9db6b7da090",
+			"key": "6f0ff3f305accd2c5da477bc8425ebf8f687352b95ff55f2d30ba9e8dee7e5fb"
+		},
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
-			"key": "6d12eebfef9866c9b6fa92b97c6e705c26a1785b1e7944da701fc545a51d4673"
+			"key": "903d29f8456afbd2a92ce9d147f9f04dfeeab7ef4af272c1c301fc11f2e4043e"
 		}
 	}
 }
