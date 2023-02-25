@@ -1,4 +1,4 @@
-import FutureFlows from 0xf83c0be5817ab83d
+import FutureFlows from "../contracts/FutureFlows.cdc"
 
 pub fun main(address: Address): [FutureFlows.DataView] {
     let cap = getAccount(address).getCapability<&FutureFlows.Market{FutureFlows.MarketPublic}>(FutureFlows.MarketPublicPath)

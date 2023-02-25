@@ -55,6 +55,10 @@
 		"userA": {
 			"address": "9cb04085c22b7df5",
 			"key": "53cad0510b6510529df8e35475cdae4fd10617e423c44ced260426e44239134f"
+		},
+		"userB": {
+			"address": "489209498082c1fb",
+			"key": "4e1407b3aefe4be1b5e92290057d67bb6a03f31d3b6ea535322fc7bdf923fc14"
 		}
 	},
 	"deployments": {
