@@ -1,4 +1,42 @@
 {
+	"contracts": {
+		"FiatToken": {
+			"source": "./cadence/contracts/tokens/FiatToken.cdc",
+			"aliases": {
+				"emulator": "0ae53cb6e3f42a79",
+				"testnet": "a983fecbed621163"
+			}
+		},
+		"FlowToken": {
+			"source": "./cadence/contracts/tokens/FlowToken.cdc",
+			"aliases": {
+				"emulator": "0ae53cb6e3f42a79",
+				"testnet": "7e60df042a9c0868"
+			}
+		},
+		"FungibleToken": {
+			"source": "./cadence/contracts/interfaces/FungibleToken.cdc",
+			"aliases": {
+				"emulator": "ee82856bf20e2aa6",
+				"testnet": "9a0766d93b6608b7"
+			}
+		},
+		"FutureFlows": "./cadence/contracts/FutureFlows.cdc",
+		"NonFungibleToken": {
+			"source": "./cadence/contracts/interfaces/NonFungibleToken.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"testnet": "631e88ae7f1d7c20"
+			}
+		},
+		"OnChainMultiSig": {
+			"source": "./cadence/contracts/utilities/OnChainMultiSig.cdc",
+			"aliases": {
+				"emulator": "0ae53cb6e3f42a79",
+				"testnet": "5a5b0a73a29e83f1"
+			}
+		}
+	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
 		"mainnet": "access.mainnet.nodes.onflow.org:9000",
@@ -13,6 +51,13 @@
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
 			"key": "903d29f8456afbd2a92ce9d147f9f04dfeeab7ef4af272c1c301fc11f2e4043e"
+		}
+	},
+	"deployments": {
+		"testnet": {
+			"deployer": [
+				"FutureFlows"
+			]
 		}
 	}
 }

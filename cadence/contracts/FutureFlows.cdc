@@ -1,6 +1,6 @@
 import FiatToken from "./tokens/FiatToken.cdc"
 import FungibleToken from "./interfaces/FungibleToken.cdc"
-
+// Deployed at: 0x5cc5b9db6b7da090
 pub contract FutureFlows {
 
      pub struct AmountAdded {
