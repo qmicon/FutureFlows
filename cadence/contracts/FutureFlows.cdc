@@ -88,7 +88,9 @@ pub contract FutureFlows {
     }
 
     pub resource interface QuestionPrivate {
+        pub var fundDistributed: Bool
         pub fun resolveAnswer(answer: Bool)
+        pub fun setAsFundDistributed()
     }
 
     pub resource Question: QuestionPublic, QuestionPrivate {
@@ -106,6 +108,7 @@ pub contract FutureFlows {
 
         pub var questionResolved: Bool
         pub var resolveValue: Bool?
+        pub var fundDistributed: Bool
 
         init(
             id: UInt64,
@@ -128,6 +131,7 @@ pub contract FutureFlows {
             self.noCount = []
             self.questionResolved = false
             self.resolveValue = nil
+            self.fundDistributed = false
         }
 
 
@@ -196,6 +200,13 @@ pub contract FutureFlows {
             }
             self.questionResolved = true
             self.resolveValue = answer
+        }
+
+        pub fun setAsFundDistributed() {
+            pre {
+                self.fundDistributed == false : "Already set"
+            }
+            self.fundDistributed = true
         }
     }
 
@@ -304,28 +315,36 @@ pub contract FutureFlows {
     pub fun distributeFunds() {
         let market = self.account.borrow<&FutureFlows.Market>(from: FutureFlows.MarketStoragePath) ?? panic("Market Resource not Accessible")
         for key in market.postedQuestions.keys {
-            if market.postedQuestions[key]?.questionResolved == true {
+            if market.postedQuestions[key]?.questionResolved == true && market.postedQuestions[key]?.fundDistributed == false {
                 if market.postedQuestions[key]?.resolveValue == true {
-                    for yesCount in market.postedQuestions[key]?.yesCount as! [AmountAdded] {
-                        var amount = market.postedQuestions[key]?.totalNoCount as! UFix64 * yesCount.amount / market.postedQuestions[key]?.totalNoCount as! UFix64
+                    let list = market.postedQuestions[key]?.yesCount ?? panic("yesCount could not be fetched")
+                    for yesCount in list {
+                        let totalNoCount = market.postedQuestions[key]?.totalNoCount ?? panic("totalNoCount could not be fetched")
+                        let totalYesCount = market.postedQuestions[key]?.totalYesCount ?? panic("totalYesCount could not be fetched")
+                        var amount =  totalNoCount * yesCount.amount / totalYesCount
                         amount = amount + yesCount.amount
                         let account = getAccount(yesCount.user)
-                        let cap = account.getCapability<&FiatToken.Vault{FungibleToken.Receiver}>(FiatToken.VaultBalancePubPath)
+                        let cap = account.getCapability<&FiatToken.Vault{FungibleToken.Receiver}>(FiatToken.VaultReceiverPubPath)
                         let rec = cap.borrow() ?? panic("Cannot borrow Fiat Receiver")
                         rec.deposit(from: <- self.betVault.withdraw(amount: amount))
                     }
                 }
 
                 else {
-                    for noCount in market.postedQuestions[key]?.noCount as! [AmountAdded] {
-                        var amount = market.postedQuestions[key]?.totalYesCount as! UFix64 * noCount.amount / market.postedQuestions[key]?.totalYesCount as! UFix64
+                    let list = market.postedQuestions[key]?.noCount ?? panic("noCount could not be fetched")
+                    for noCount in list {
+                        let totalNoCount = market.postedQuestions[key]?.totalNoCount ?? panic("totalNoCount could not be fetched")
+                        let totalYesCount = market.postedQuestions[key]?.totalYesCount ?? panic("totalYesCount could not be fetched")
+                        var amount = totalYesCount * noCount.amount / totalNoCount
                         amount = amount + noCount.amount
                         let account = getAccount(noCount.user)
-                        let cap = account.getCapability<&FiatToken.Vault{FungibleToken.Receiver}>(FiatToken.VaultBalancePubPath)
+                        let cap = account.getCapability<&FiatToken.Vault{FungibleToken.Receiver}>(FiatToken.VaultReceiverPubPath)
                         let rec = cap.borrow() ?? panic("Cannot borrow Fiat Receiver")
                         rec.deposit(from: <- self.betVault.withdraw(amount: amount))
                     }
                 }
+                let ques = market.borrowQuestionPrivate(id: key)
+                ques.setAsFundDistributed()
             }
         }
     }
