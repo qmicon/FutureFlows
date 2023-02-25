@@ -44,9 +44,9 @@
 		"testnet": "access.devnet.nodes.onflow.org:9000"
 	},
 	"accounts": {
-		"deployer": {
-			"address": "5cc5b9db6b7da090",
-			"key": "6f0ff3f305accd2c5da477bc8425ebf8f687352b95ff55f2d30ba9e8dee7e5fb"
+		"Deployer": {
+			"address": "f83c0be5817ab83d",
+			"key": "ff47c8e1a13597d764eaf37fa465c0a199973c6ad380f14e3173ab1b2fe11c5c"
 		},
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
@@ -55,7 +55,7 @@
 	},
 	"deployments": {
 		"testnet": {
-			"deployer": [
+			"Deployer": [
 				"FutureFlows"
 			]
 		}

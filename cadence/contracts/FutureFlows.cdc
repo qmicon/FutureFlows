@@ -210,7 +210,7 @@ pub contract FutureFlows {
             imageHash: String,
             description: String,
             resolverUrl: String,
-            endTimestamp: UFix64
+            endAfterSeconds: UFix64
         )
         pub fun borrowQuestionPrivate(id: UInt64): &FutureFlows.Question
     }
@@ -249,8 +249,9 @@ pub contract FutureFlows {
             imageHash: String,
             description: String,
             resolverUrl: String,
-            endTimestamp: UFix64
+            endAfterSeconds: UFix64
         ) {
+            let endTimestamp = getCurrentBlock().timestamp + endAfterSeconds
             let ques <- create FutureFlows.Question(
                 id: self.totalQuestions,
                 question: question,
