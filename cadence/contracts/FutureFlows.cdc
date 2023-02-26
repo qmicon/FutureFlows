@@ -80,6 +80,7 @@ pub contract FutureFlows {
         pub var noCount: [AmountAdded]
         pub var questionResolved: Bool
         pub var resolveValue: Bool?
+        pub var fundDistributed: Bool
 
         pub fun getDataView(): DataView
         pub fun getGraphView(): GraphView
@@ -88,7 +89,6 @@ pub contract FutureFlows {
     }
 
     pub resource interface QuestionPrivate {
-        pub var fundDistributed: Bool
         pub fun resolveAnswer(answer: Bool)
         pub fun setAsFundDistributed()
     }
@@ -109,6 +109,7 @@ pub contract FutureFlows {
         pub var questionResolved: Bool
         pub var resolveValue: Bool?
         pub var fundDistributed: Bool
+
 
         init(
             id: UInt64,
