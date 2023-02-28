@@ -11,6 +11,29 @@
   "dependencies": {
     "next": "13.2.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "@headlessui/react": "^1.4.1",
+    "@heroicons/react": "^1.0.5",
+    "@types/canvasjs": "^1.9.7",
+    "@types/elliptic": "^6.4.14",
+    "chartjs-adapter-moment": "^1.0.0",
+    "dotenv": "^16.0.3",
+    "ipfs-http-client": "^53.0.1",
+    "jsonwebtoken": "^9.0.0",
+    "moment": "^2.29.1",
+    "mongoose": "^6.10.0",
+    "next-auth": "^4.19.2",
+    "plotly.js": "^2.6.2",
+    "plotly.js-dist-min": "^2.6.2",
+    "postcss": "^8.3.11",
+    "react-chartjs-2": "^3.3.0",
+    "react-credit-cards": "^0.8.3",
+    "react-query": "^3.39.3",
+    "sha3": "^2.1.4",
+    "styled-components": "^5.3.6",
+    "web3": "^1.6.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^2.2.19"
   }
 }
