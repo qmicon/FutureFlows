@@ -1,81 +1,28 @@
-### 👋 Welcome Flow Developer!
-Welcome to your new Flow project. We only provided you with bare minimum to get started, which is the standard Cadence folder structure and a flow.json configuration with standard contracts defined.
-
-### 🔨 Getting started
-Getting started can feel overwhelming, but we are here for you. Depending on how accustomed you are to Flow here's a list of resources you might find useful:
-- **[Cadence documentation](https://developers.flow.com/cadence/language)**: here you will find language reference for Cadence, which will be the language in which you develop your smart contracts,
-- **[Visual Studio Code](https://code.visualstudio.com/?wt.mc_id=DX_841432)** and **[Cadence extension](https://marketplace.visualstudio.com/items?itemName=onflow.cadence)**: we suggest using Visual Studio Code IDE for writing Cadence with the Cadence extension installed, that will give you nice syntax highlitning and additional smart features,
-- **[SDKs](https://developers.flow.com/tools#sdks)**: here you will find a list of SDKs you can use to ease the interaction with Flow network (sending transactions, fetching accounts etc),
-- **[Tools](https://developers.flow.com/tools#development-tools)**: development tools you can use to make your development easier, [Flowser](https://docs.flowser.dev/) can be super handy to see what's going on the blockchain while you develop
+<h5>What is FutureFlows?</h5>
 
 
-### 📦 Project Structure
-Your project comes with some standard folders which have a special purpose:
-- `/cadence` inside here is where your Cadence smart contracts code lives
-- `flow.json` configuration file for your project, you can think of it as package.json, but you don't need to worry, flow dev command will configure it for you
+As an information markets platform, FutureFlows lets you buy and sell shares based on your forecasts for the future. From bets on the future 'price of your favorite NFTs' to predicting 'the winner of ongoing Jake Paul vs Tommy Fury match', from forecasting 'Which company will be more successful in AI research and development in 2023' to foretelling 'What could be Elon's next buy like?' you can build a diverse portfolio that reflects your own knowledge, research, and view of the future.
 
-Inside `cadence` folder you will find:
-- `/contracts` location for Cadence contracts go in this folder
-- `/scripts` location for Cadence scripts goes here
-- `/transactions` location for Cadence transactions goes in this folder
-- `/tests` all the integration tests for your dapp and Cadence tests go into this folder
+What sets FutureFlows apart is its emphasis on the power of market prices. By reflecting what traders think are the odds of future events, these prices transform trading activity into actionable insights that can help people make better decisions about the future. And because FutureFlows is a decentralized platform, you can rest assured that the data you're getting is unbiased and real-time.
 
+So if you're ready to put your predictions to the test and see where the future takes you, join the leading source of information on the world's most pressing issues - FutureFlows!
 
-### 👨‍💻 Start Developing
-After creating this project using the flow setup command you should then start the emulator by running:
-```
-> flow emulator --contracts
-```
-_we use `--contracts` flag to include more already deployed contract we can then easily import in our project._
+<h5>What is FutureFlows?</h5>
+Picture this: an information market is like a giant crystal ball that allows people to make bets on the future. It's a place where anyone can buy, sell, or trade shares based on their predictions of upcoming events.
 
-and then start the development command by running:
-```shell
-> flow dev
-```
-After the command is started it will automatically watch any changes you make to Cadence files and make sure to continiously sync those changes on the emulator network. If you make any mistakes it will report the errors as well. Read more [about the command here](https://developers.flow.com/tools/flow-cli/super-commands)
+For example, let's say there's an information market predicting the winner of the Super Bowl. Traders can buy shares that represent their belief of which team will come out on top. If one team seems to be a clear favorite, the price of shares representing that team will go up. But if something happens during the game, such as an unexpected injury or a miraculous play, the price of shares for the other team might go up instead.
 
-**Importing Contracts**
+Through these bets, information markets provide insights into what traders believe is likely to happen in the future. And as the events unfold, the results of these bets provide valuable data that can be used to inform decisions and strategies. So, whether you're a football fan or just love to speculate about the future, information markets offer a fascinating glimpse into what may be on the horizon.
 
-When you want to import the contracts you've just created you can simply do so by writing the import statement:
-```
-import "Foo"
-```
-We will automatically find your project contract named `Foo` and handle the importing for you. 
-
-**Deploying to specific accounts**
-
-By default all contracts are deployed to a default account. If you want to seperate contracts to different accounts you can easily do so by creating a folder inside the contracts folder and we will create the account for you which will have the same name as the folder you just created. All the contracts inside that folder will be deployed automatically to the newly created account.
-
-Example deploying to charlie account:
-
-_folder structure_
-```
-/contracts
-    Bar.cdc
-    /charlie
-        Foo.cdc
-```
-
-You can then import the `Foo` contract in `Bar` contract the same way as any other contract:
-```
-import "Foo"
-```
-
-**Included Imports**
-
-You can already import certain common contracts we included for you, just make sure you started your emulator with the `--contracts` flag so those contracts are really deployed. The list of contracts you can import out of the box is:
-- NonFungibleToken `import "NonFungibleToken"`
-- FlowToken `import "FlowToken"`
-- FungibleToken `import "FungibleToken"`
-- FUSD `import "FUSD"`
-- MetadataViews `import "MetadataViews"`
-- ExampleNFT `import "ExampleNFT"`
-- NFTStorefrontV2 `import "NFTStorefrontV2"`
-- NFTStorefront `import "NFTStorefront"`
+<h4>What blockchain is FutureFlows built on?</h4>
+Flow, the blockchain that powers FutureFlows, offers a unique advantage for users who want to trade tokens without the added burden of network fees.
+<br>
+<br>
+<br>
 
 
-### Further Reading
+<i>Meanwhile FutureFlows is about to level up even more by integrating Optimistic Oracle (OO) into our platform!
+Optimistic Oracle will give you fast and secure access to off-chain data, allowing you to make informed decisions with confidence. Plus, it reduces the costs and complexity of accessing external data sources</i>
 
-- Cadence Language Reference https://developers.flow.com/cadence/language
-- Flow Smart Contract Project Development Standards https://developers.flow.com/cadence/style-guide/project-development-tips
-- Cadence anti-patterns https://developers.flow.com/cadence/anti-patterns
+
+![image](https://user-images.githubusercontent.com/55878940/221743617-37425da7-9702-43f2-84df-2794c8e4d7c2.png)
