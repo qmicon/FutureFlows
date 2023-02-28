@@ -14,7 +14,7 @@ export default NextAuth({
         // ...add more providers here
     ],
     session: {
-        clientMaxAge: 60
+        keepAlive: 60
     },
     callbacks: {
         async session({ session, token, user }) {
