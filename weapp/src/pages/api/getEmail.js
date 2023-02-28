@@ -1,4 +1,4 @@
-import EmailSchema from "../../../models/UsersFinal";
+import EmailSchema from "../../../models/UserFinal";
 import connectDB from "../../../middleware/mongoose";
 
 const handler = async (req, res) => {
