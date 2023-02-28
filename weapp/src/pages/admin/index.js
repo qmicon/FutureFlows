@@ -16,9 +16,7 @@ const Admin = () => {
   const [description, setDescription] = React.useState("");
   const [imageHash, setImageHash] = React.useState("");
   const [resolverUrl, setResolverUrl] = React.useState("");
-  const [timestamp, setTimestamp] = React.useState<
-    string | number | readonly  | undefined
-  >(Date());
+  const [timestamp, setTimestamp] = React.useState(Date());
 
   const uploadImage = async () => {
     const file = e.target.files[0];
