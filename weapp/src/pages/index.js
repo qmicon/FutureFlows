@@ -4,7 +4,7 @@ import { Filter } from "../../components/Filter";
 import { MarketCard } from "../../components/MarketCard";
 import Navbar from "../../components/Navbar";
 import { useData } from "../../contexts/DataContext";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Home.module.css"
 import { useSession, signIn, signOut } from "next-auth/react"
 
 
