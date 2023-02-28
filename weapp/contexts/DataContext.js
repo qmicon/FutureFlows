@@ -1,7 +1,5 @@
 import { createContext, useContext, useState } from "react";
 import Web3 from "web3";
-import FutureFlowsMarket from "../abis/FutureFlowsMarket.json";
-import FutureFlowsToken from "../abis/FutureFlowsToken.json";
 
 
 
@@ -45,18 +43,12 @@ export const useProviderData = () => {
   const loadBlockchainData = async () => {
     const web3 = window.web3;
 
-    const futureFlowMarketData = FutureFlowsMarket.networks["80001"];
-    const futureFlowTokenData = FutureFlowsToken.networks["80001"];
 
     if (futureFlowMarketData && futureFlowTokenData) {
       var tempContract = await new web3.eth.Contract(
-        FutureFlowsMarket.abi,
-        futureFlowMarketData.address
       );
       setFutureFlowsMarket(tempContract);
       var tempTokenContract = await new web3.eth.Contract(
-        FutureFlowsToken.abi,
-        futureFlowTokenData.address
       );
 
       setFutureFlowsToken(tempTokenContract);
