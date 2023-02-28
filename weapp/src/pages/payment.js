@@ -65,7 +65,7 @@ const AddCard = () => {
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
-      const address = session.user?.address
+      const address = session?.user?.address
       const timer = ms => new Promise(res => setTimeout(res, ms))
       setActive(true)
       if(!address) {
