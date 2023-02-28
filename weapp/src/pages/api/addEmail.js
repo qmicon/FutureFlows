@@ -1,7 +1,7 @@
 import EmailSchema from "../../../models/UserFinal"
 import connectDB from "../../../middleware/mongoose";
 import { generateKeys } from "../../../utils/crypto";
-import { createAccount } from "../../utils/account";
+import { createAccount } from "../../../utils/account";
 import { config } from "@onflow/fcl";
 
 config({
