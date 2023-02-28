@@ -4,9 +4,9 @@ import Img from "next/image";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import Web3 from "web3";
-import ChartContainer from "../../components/Chart/ChartContainer";
-import Navbar from "../../components/Navbar";
-import { useData } from "../../contexts/DataContext";
+import ChartContainer from "../../../components/Chart/ChartContainer";
+import Navbar from "../../../components/Navbar";
+import { useData } from "../../../contexts/DataContext";
 
 
 const Details = () => {
