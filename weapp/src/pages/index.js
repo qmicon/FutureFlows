@@ -41,7 +41,7 @@ export default function Home() {
   }, [loading]);
 
   useEffect(() => {
-    if(session?.isregister) {
+    if(session && session.user) {
       setButtonVisible(true)
     }
     else {
@@ -73,7 +73,7 @@ export default function Home() {
           )}
         </div>
         <div>
-          {buttonVisible ? (<button style={{marginRight: 20, width: 70, marginTop: 20, fontSize: "1rem", fontWeight: "bold", color: "#33c5ff"}}>Add Wallet</button>) : (<div></div>)}
+          {buttonVisible ? (<button style={{marginRight: 20, width: 70, marginTop: 20, fontSize: "1rem", fontWeight: "bold", color: "#33c5ff"}}>Enable USDC In Wallet</button>) : (<div></div>)}
         </div>
       <Navbar />
       </div>
@@ -88,6 +88,7 @@ export default function Home() {
                   {session.user.email}
                 </p>
                 <p>
+                  {session.user?.address}
                 </p>
               </div>
             </div>
