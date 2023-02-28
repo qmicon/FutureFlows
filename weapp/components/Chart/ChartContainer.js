@@ -1,7 +1,10 @@
-import Plotly from "plotly.js-dist-min";
+// import Plotly from "plotly.js-dist-min";
+import dynamic from "next/dynamic"
 import React, { useEffect } from "react";
 import Web3 from "web3";
 import { useData } from "../../contexts/DataContext";
+
+const Plotly = dynamic(() => import("plotly.js-dist-min"), { ssr: false, })
 
 
 const ChartContainer = ({ questionId }) => {
