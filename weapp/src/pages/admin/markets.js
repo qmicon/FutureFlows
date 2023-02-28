@@ -2,9 +2,9 @@ import Head from "next/head";
 import Link from "next/link";
 import React, { useCallback, useEffect, useState } from "react";
 import { MarketProps } from "..";
-import { AdminMarketCard } from "../../components/AdminMarketCard";
-import Navbar from "../../components/Navbar";
-import { useData } from "../../contexts/DataContext";
+import { AdminMarketCard } from "../../../components/AdminMarketCard";
+import Navbar from "../../../components/Navbar";
+import { useData } from "../../../contexts/DataContext";
 
 const Markets = () => {
   const { futureFlows , account, loadWeb3, loading } = useData();
