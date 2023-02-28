@@ -6,6 +6,7 @@ import dotenv from "dotenv"
 import Navbar from "../../components/Navbar";
 import { buyUSDCwithCard, getCardPaymentStatus, getCryptoTransferStatus, tranferCryptoToWallet } from "utils/USDC";
 import LoadingOverlay from 'react-loading-overlay';
+import { useSession } from "next-auth/react"
 
 dotenv.config({ path: '/path/to/.env' });
 const DB = process.env.DB
@@ -45,6 +46,7 @@ const AddCard = () => {
 //   }
 // })
   const [number, setNumber] = useState("");
+  const {data: session} = useSession()
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [expiry, setExpiry] = useState("");
@@ -63,8 +65,15 @@ const AddCard = () => {
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
+      const address = session.user?.address
       const timer = ms => new Promise(res => setTimeout(res, ms))
       setActive(true)
+      if(!address) {
+        setLoaderText("You are not logged in")
+        await timer(1000)
+        setActive(false)
+        return
+      }
       setLoaderText("Card Payment Initiated")
       let cardRes = await buyUSDCwithCard(amount)
       const cardPayId = cardRes.data.id
@@ -78,7 +87,7 @@ const AddCard = () => {
       if(cardPayStatus === "confirmed") {
         setLoaderText("card payment status confirmed")
         setLoaderText("crypto transfer to wallet initiated")
-        const address = "0xb6c43135316e7dee"
+        const address = session.user?.address
         let cryptoRes = await tranferCryptoToWallet(address, amount)
         const cryptoTransferId= cryptoRes.data.id
         var cryptoPayStatus = cryptoRes.data.status
