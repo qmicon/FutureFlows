@@ -1,6 +1,6 @@
-import EmailSchema from "../../models/UsersFinal";
-import connectDB from "../../middleware/mongoose";
-import { generateKeys } from "../../utils/crypto";
+import EmailSchema from "../../../models/UserFinal"
+import connectDB from "../../../middleware/mongoose";
+import { generateKeys } from "../../../utils/crypto";
 
 const handler = async (req, res) => {
     if (req.method == 'POST')
