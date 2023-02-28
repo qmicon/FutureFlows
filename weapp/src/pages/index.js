@@ -6,6 +6,7 @@ import Navbar from "../../components/Navbar";
 import { useData } from "../../contexts/DataContext";
 import styles from "../styles/Home.module.css"
 import { useSession, signIn, signOut } from "next-auth/react"
+import LoadingOverlay from 'react-loading-overlay';
 
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
   const { futureFlows, account, loadWeb3, loading } = useData();
   const [markets, setMarkets] = useState([]);
   const [buttonVisible, setButtonVisible] = useState(false)
+  const [loaderactive, setActive] = useState(false)
   const getMarkets = useCallback(async () => {
     var totalQuestions = await futureFlows.methods
       .totalQuestions()
@@ -49,6 +51,12 @@ export default function Home() {
 
 
   return (
+    <>
+      <LoadingOverlay
+        active={loaderactive}
+        spinner
+        text='Loading your content...'
+        >
     <div className={styles.container}>
       <Head>
         <title>FutureFlows</title>
@@ -143,5 +151,7 @@ export default function Home() {
         </div>
       </main>
     </div>
+    </LoadingOverlay>
+    </>
   );
 }
