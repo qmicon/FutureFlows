@@ -10,11 +10,12 @@ import LoadingOverlay from 'react-loading-overlay';
 
 
 export default function Home() {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const { futureFlows, account, loadWeb3, loading } = useData();
   const [markets, setMarkets] = useState([]);
   const [buttonVisible, setButtonVisible] = useState(false)
   const [loaderactive, setActive] = useState(false)
+  const [loaderText, setLoaderText] = useState("");
   const getMarkets = useCallback(async () => {
     var totalQuestions = await futureFlows.methods
       .totalQuestions()
@@ -47,7 +48,16 @@ export default function Home() {
     else {
       setButtonVisible(false)
     }
-  }, [session]);
+
+    if(status === "loading") {
+      setActive(true)
+      setLoaderText("creating your address on flow...")
+    }
+    else {
+      setActive(false)
+      setLoaderText("")
+    }
+  }, [session, status]);
 
 
   return (
@@ -55,7 +65,7 @@ export default function Home() {
       <LoadingOverlay
         active={loaderactive}
         spinner
-        text='Loading your content...'
+        text={loaderText}
         >
     <div className={styles.container}>
       <Head>

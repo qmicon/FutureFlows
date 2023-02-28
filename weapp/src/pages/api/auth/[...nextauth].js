@@ -13,6 +13,9 @@ export default NextAuth({
         })
         // ...add more providers here
     ],
+    session: {
+        maxAge: 30 * 24 * 60 * 60
+    },
     callbacks: {
         async session({ session, token, user }) {
             let data = {email: session.user.email}
