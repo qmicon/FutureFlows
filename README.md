@@ -7,7 +7,7 @@ What sets FutureFlows apart is its emphasis on the power of market prices. By re
 
 So if you're ready to put your predictions to the test and see where the future takes you, join the leading source of information on the world's most pressing issues - FutureFlows!
 
-<h5>What is FutureFlows?</h5>
+<h5>What is Information Markets?</h5>
 Picture this: an information market is like a giant crystal ball that allows people to make bets on the future. It's a place where anyone can buy, sell, or trade shares based on their predictions of upcoming events.
 
 For example, let's say there's an information market predicting the winner of the Super Bowl. Traders can buy shares that represent their belief of which team will come out on top. If one team seems to be a clear favorite, the price of shares representing that team will go up. But if something happens during the game, such as an unexpected injury or a miraculous play, the price of shares for the other team might go up instead.
