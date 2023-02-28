@@ -18,7 +18,7 @@ export default NextAuth({
     callbacks: {
         async session({ session, token, user }) {
             let data = {email: session.user.email}
-            let res1 = await fetch('http://localhost:3000/api/addEmail', {
+            let res1 = await fetch(process.env.NEXTAUTH_URL + '/api/addEmail', {
                 method: 'POST',
                 headers: {
                   'Content-Type' : 'applicantion/json'
