@@ -3,6 +3,7 @@ import Cards from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
 import styled from "styled-components";
 import dotenv from "dotenv"
+import Navbar from "../../components/Navbar";
 
 dotenv.config({ path: '/path/to/.env' });
 const DB = process.env.DB
@@ -70,6 +71,10 @@ const AddCard = () => {
 
   return (
     <>
+          <div style={{display : "flex",justifyContent: "center", alignItems: "center"}}>
+    <Navbar/>
+    </div>
+
     <Wrapper>
     <Cards
     number={number}
