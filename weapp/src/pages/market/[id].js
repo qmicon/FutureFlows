@@ -11,14 +11,12 @@ import { userAuthorizationFunction } from "utils/authFunction";
 import Web3 from "web3";
 import ChartContainer from "../../../components/Chart/ChartContainer";
 import Navbar from "../../../components/Navbar";
-import { useData } from "../../../contexts/DataContext";
 
 
 const Details = () => {
   const router = useRouter();
   const { id } = router.query;
   const {data: session} = useSession()
-  const { futureFlows, account, loadWeb3, loading, futureFlowsToken } = useData();
   const [market, setMarket] = useState();
   const [selected, setSelected] = useState("YES");
   const [dataLoading, setDataLoading] = useState(true);
@@ -27,7 +25,7 @@ const Details = () => {
   const [input, setInput] = useState("");
 
   const getMarketData = useCallback(async () => {
-    var data = await getQuestion(id)
+    var data = await getQuestion(parseInt(id))
     setMarket({
       id: data.id,
       title: data.question,
@@ -40,7 +38,7 @@ const Details = () => {
       resolverUrl: data.resolverUrl,
     });
     setDataLoading(false);
-  }, [account, id, futureFlows]);
+  }, []);
 
   const handleTrade = async () => {
     var bal = await USDCBalance(session.user?.address)
@@ -74,10 +72,8 @@ const Details = () => {
   };
 
   useEffect(() => {
-    loadWeb3().then(() => {
-      if (!loading) getMarketData();
-    });
-  }, [loading]);
+    getMarketData();
+  }, []);
 
   return (
     <div className="flex flex-col justify-center items-center h-full">

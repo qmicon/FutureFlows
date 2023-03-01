@@ -7,10 +7,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { MarketProps } from "..";
 import { AdminMarketCard } from "../../../components/AdminMarketCard";
 import Navbar from "../../../components/Navbar";
-import { useData } from "../../../contexts/DataContext";
 
 const Markets = () => {
-  const { futureFlows , account, loadWeb3, loading } = useData();
   const [markets, setMarkets] = useState([]);
 
   const getMarkets = useCallback(async () => {
@@ -31,13 +29,11 @@ const Markets = () => {
     // }
     var market = await getMarket()
     setMarkets(market);
-  }, [account, futureFlows]);
+  }, []);
 
   useEffect(() => {
-    loadWeb3().then(() => {
-      if (!loading) getMarkets();
-    });
-  }, [loading]);
+    getMarkets();
+  }, []);
 
   return (
     <>
@@ -70,11 +66,11 @@ const Markets = () => {
                   title={market.title}
                   totalAmount={market.totalAmount}
                   onYes={async () => {
-                    txId = await resolveQuestion(true, market.id)
+                    var txId = await resolveQuestion(true, market.id)
                     await fcl.tx(txId).onceSealed();
                   }}
                   onNo={async () => {
-                    txId = await resolveQuestion(false, market.id)
+                    var txId = await resolveQuestion(false, market.id)
                     await fcl.tx(txId).onceSealed();
                   }}
                 />

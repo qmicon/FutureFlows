@@ -7,11 +7,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import Navbar from "../../../components/Navbar";
-import { useData } from "../../../contexts/DataContext";
 
 const Admin = () => {
   const router = useRouter();
-  const { futureFlows, loadWeb3, account } = useData();
   const {data: session} = useSession()
   const [loading, setLoading] = React.useState(false);
   const client = create({ url: "https://ipfs.infura.io:5001/api/v0" });
@@ -22,15 +20,12 @@ const Admin = () => {
   const [resolverUrl, setResolverUrl] = React.useState("");
   const [timestamp, setTimestamp] = React.useState(Date());
 
-  const uploadImage = async () => {
+  const uploadImage = async (e) => {
     const file = e.target.files[0];
     const added = await client.add(file);
     setImageHash(added.path);
   };
 
-  useEffect(() => {
-    loadWeb3();
-  }, [loading]);
 
   const handleSubmit = async () => {
     setLoading(true);

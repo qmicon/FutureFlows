@@ -1,5 +1,8 @@
 import * as fcl from "@onflow/fcl";
 import { userAuthorizationFunction } from "utils/authFunction";
+import { fclConfig } from "./config";
+
+fclConfig()
 
 export async function initUSDCVault(authAccount) {
     return fcl.mutate({
@@ -29,7 +32,7 @@ export async function initUSDCVault(authAccount) {
         payer: userAuthorizationFunction(process.env.NEXT_PUBLIC_RELAYER_PRIVATE_KEY, process.env.NEXT_PUBLIC_RELAYER_KEY_INDEX, process.env.NEXT_PUBLIC_RELAYER_ADDRESS),
         proposer: authAccount,
         authorizations: [authAccount],
-        limit: 1000,
+        limit: 9999,
       });
 }
     

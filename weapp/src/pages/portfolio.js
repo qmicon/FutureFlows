@@ -1,14 +1,14 @@
 import { getGraph, getMarket } from "@/flow/scripts";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import React, { useCallback, useEffect, useState } from "react";
 import Web3 from "web3";
 import Navbar from "../../components/Navbar";
 import { PortfolioMarketCard } from "../../components/PortfolioMarketCard";
-import { useData } from "../../contexts/DataContext";
 import styles from "../styles/Home.module.css";
 
 const Portfolio = () => {
-  const { futureFlows, account, loadWeb3, loading } = useData();
+  const {data: session} = useSession()
   const [markets, setMarkets] = useState([]);
   const [portfolioValue, setPortfolioValue] = useState(0);
   const [allQuestions, setAllQuestions] = useState([]);
@@ -38,7 +38,7 @@ const Portfolio = () => {
     for (var i = 0; i < Questions.length; i++) {
       var data = await getGraph(i)
       data["0"].forEach(() => {
-        if (item[0] == account) {
+        if (item[0] == session.user?.address) {
           dataArray.push({
             id: i.toString(),
             userYes: item[1].toString(),
@@ -48,7 +48,7 @@ const Portfolio = () => {
         }
       });
       data["1"].forEach(() => {
-        if (item[0] == account) {
+        if (item[0] == session.user?.address) {
           dataArray.push({
             id: i.toString(),
             userNo: item[1].toString(),
@@ -70,15 +70,11 @@ const Portfolio = () => {
       dataArray[i].endTimestamp = question.endTimestamp;
     }
     setMarkets(dataArray);
-  }, [account, futureFlows]);
+  }, []);
 
   useEffect(() => {
-    loadWeb3().then(() => {
-      if (!loading) {
         getMarkets();
-      }
-    });
-  }, [loading]);
+  }, []);
 
   return (
     <div className={styles.container}>

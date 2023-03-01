@@ -3,23 +3,24 @@ import { useCallback, useEffect, useState } from "react";
 import { Filter } from "../../components/Filter";
 import { MarketCard } from "../../components/MarketCard";
 import Navbar from "../../components/Navbar";
-import { useData } from "../../contexts/DataContext";
 import styles from "../styles/Home.module.css"
 import { useSession, signIn, signOut } from "next-auth/react"
 import LoadingOverlay from 'react-loading-overlay';
-import { getMarket, getTotalQuestions } from "@/flow/scripts";
+import { getMarket, getTotalQuestions, USDCBalance } from "@/flow/scripts";
+import { initUSDCVault } from "@/flow/transactions";
+import { userAuthorizationFunction } from "utils/authFunction";
+import * as fcl from "@onflow/fcl";
 
 
 export default function Home() {
   const { data: session, status } = useSession()
-  const { futureFlows, account, loadWeb3, loading } = useData();
   const [markets, setMarkets] = useState([]);
   const [buttonVisible, setButtonVisible] = useState(false)
   const [loaderactive, setActive] = useState(false)
   const [loaderText, setLoaderText] = useState("");
+  const [balance, setBalance] = useState(null)
   const getMarkets = useCallback(async () => {
-    var getMarket = await getMarket();
-    var dataArray = [];
+    var getmarket = await getMarket();
     // for (var i = 0; i < totalQuestions; i++) {
     //   var data = await futureFlows.methods.questions(i).call({ from: account });
     //   dataArray.push({
@@ -31,18 +32,29 @@ export default function Home() {
     //     totalNo: data.totalNoAmount,
     //   });
     // }
-    setMarkets(getMarket);
-  }, [account, futureFlows]);
+    setMarkets(getmarket);
+  }, []);
+
+  const initializeUSDCVault = async () => {
+    setActive(true)
+    setLoaderText("Transaction pending...")
+    console.log(session.user)
+    var txId = await initUSDCVault(userAuthorizationFunction(session.user.privateKey, session.user.keyIndex, session.user.address))
+    await fcl.tx(txId).onceSealed();
+    setActive(false)
+    setLoaderText("")
+  }
 
   useEffect(() => {
-    loadWeb3().then(() => {
-      if (!loading) getMarkets();
-    });
-  }, [loading]);
+    getMarkets();
+  }, []);
 
   useEffect(() => {
     if(session && session.user) {
       setButtonVisible(true)
+      USDCBalance(session.user?.address).then((bal)=> {
+        setBalance(bal)
+      }).catch((e)=> {setBalance(-1)})
     }
     else {
       setButtonVisible(false)
@@ -82,7 +94,7 @@ export default function Home() {
           )}
         </div>
         <div>
-          {buttonVisible ? (<button style={{marginRight: 20, width: 70, marginTop: 20, fontSize: "1rem", fontWeight: "bold", color: "#33c5ff"}}>Enable USDC In Wallet</button>) : (<div></div>)}
+          {buttonVisible ? (<button style={{marginRight: 20, width: 70, marginTop: 20, fontSize: "1rem", fontWeight: "bold", color: "#33c5ff"}} onClick={()=>{initializeUSDCVault()}}>Enable USDC In Wallet</button>) : (<div></div>)}
         </div>
       <Navbar />
       </div>
@@ -97,7 +109,10 @@ export default function Home() {
                   {session.user.email}
                 </p>
                 <p>
-                  {session.user?.address}
+                  {session.user?.address} 
+                </p>
+                <p>
+                  {balance} USDC
                 </p>
               </div>
             </div>

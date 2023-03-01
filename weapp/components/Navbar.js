@@ -1,11 +1,34 @@
+import { fclConfig } from "@/flow/config";
+import * as fcl from "@onflow/fcl";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
-import { useData } from "../contexts/DataContext";
+import React, { useEffect, useState } from "react";
+
+fclConfig()
 
 function Navbar() {
     const router = useRouter();
-    const { account, loadWeb3 } = useData();
+    const {data: session} = useSession()
+    const [user, setUser] = useState({loggedIn: null})
+    useEffect(() => fcl.currentUser.subscribe(setUser), [])
+    const AuthedState = () => {
+      return (
+        <div>
+          <div>Address: {user?.addr ?? "No Address"}</div>
+          <button onClick={fcl.unauthenticate}>Log Out</button>
+        </div>
+      )
+    }
+  
+    const UnauthenticatedState = () => {
+      return (
+        <div>
+          <button onClick={fcl.logIn}>Log In</button>
+          <button onClick={fcl.signUp}>Sign Up</button>
+        </div>
+      )
+    }
   
     return (
       <>
@@ -36,20 +59,19 @@ function Navbar() {
                   />
                 </div>
               )}
-            {account ? (
-              <div className="bg-green-500 px-6 py-2 rounded-md cursor-pointer">
+            {session && session.user ? (
+              <div>
                 <span className="text-lg text-white">
-                  {account.substr(0, 10)}...
+                  {session.user?.address.substr(0, 10)}...
                 </span>
               </div>
             ) : (
               <div
-                className="bg-green-500 px-6 py-2 rounded-md cursor-pointer"
-                onClick={() => {
-                  loadWeb3();
-                }}
               >
-                <span className="text-lg text-white">Connect</span>
+                          {user.loggedIn
+                  ? <AuthedState />
+                  : <UnauthenticatedState />
+                }
               </div>
             )}
           </div>
