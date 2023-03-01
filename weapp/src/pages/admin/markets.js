@@ -1,5 +1,6 @@
 import { getMarket } from "@/flow/scripts";
 import { distributePrize, resolveQuestion } from "@/flow/transactions";
+import * as fcl from "@onflow/fcl";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useCallback, useEffect, useState } from "react";

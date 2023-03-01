@@ -1,4 +1,5 @@
 import { createNewQuestion } from "@/flow/transactions";
+import * as fcl from "@onflow/fcl";
 import { create } from "ipfs-http-client";
 import { useSession } from "next-auth/react";
 import Head from "next/head";

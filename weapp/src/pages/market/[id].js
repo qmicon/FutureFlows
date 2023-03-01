@@ -1,6 +1,6 @@
 import { getQuestion, USDCBalance } from "@/flow/scripts";
 import { addNoBet, addYesBet } from "@/flow/transactions";
-import fcl from "@onflow/fcl";
+import * as fcl from "@onflow/fcl";
 import moment from "moment";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
