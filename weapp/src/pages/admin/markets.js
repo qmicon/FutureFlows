@@ -1,3 +1,5 @@
+import { getMarket } from "@/flow/scripts";
+import { distributePrize, resolveQuestion } from "@/flow/transactions";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useCallback, useEffect, useState } from "react";
@@ -11,22 +13,23 @@ const Markets = () => {
   const [markets, setMarkets] = useState([]);
 
   const getMarkets = useCallback(async () => {
-    var totalQuestions = await futureFlows.methods
-      .totalQuestions()
-      .call({ from: account });
-    var dataArray = [];
-    for (var i = 0; i < totalQuestions; i++) {
-      var data = await futureFlows.methods.questions(i).call({ from: account });
-      dataArray.push({
-        id: data.id,
-        title: data.question,
-        imageHash: data.creatorImageHash,
-        totalAmount: data.totalAmount,
-        totalYes: data.totalYesAmount,
-        totalNo: data.totalNoAmount,
-      });
-    }
-    setMarkets(dataArray);
+    // var totalQuestions = await futureFlows.methods
+    //   .totalQuestions()
+    //   .call({ from: account });
+    // var dataArray = [];
+    // for (var i = 0; i < totalQuestions; i++) {
+    //   var data = await futureFlows.methods.questions(i).call({ from: account });
+    //   dataArray.push({
+    //     id: data.id,
+    //     title: data.question,
+    //     imageHash: data.creatorImageHash,
+    //     totalAmount: data.totalAmount,
+    //     totalYes: data.totalYesAmount,
+    //     totalNo: data.totalNoAmount,
+    //   });
+    // }
+    var market = await getMarket()
+    setMarkets(market);
   }, [account, futureFlows]);
 
   useEffect(() => {
@@ -66,14 +69,12 @@ const Markets = () => {
                   title={market.title}
                   totalAmount={market.totalAmount}
                   onYes={async () => {
-                    await futureFlows.methods
-                      .distributeWinningAmount(market.id, true)
-                      .send({ from: account });
+                    txId = await resolveQuestion(true, market.id)
+                    await fcl.tx(txId).onceSealed();
                   }}
                   onNo={async () => {
-                    await futureFlows.methods
-                      .distributeWinningAmount(market.id, false)
-                      .send({ from: account });
+                    txId = await resolveQuestion(false, market.id)
+                    await fcl.tx(txId).onceSealed();
                   }}
                 />
               </div>

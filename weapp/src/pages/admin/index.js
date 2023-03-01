@@ -1,4 +1,6 @@
+import { createNewQuestion } from "@/flow/transactions";
 import { create } from "ipfs-http-client";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -9,6 +11,7 @@ import { useData } from "../../../contexts/DataContext";
 const Admin = () => {
   const router = useRouter();
   const { futureFlows, loadWeb3, account } = useData();
+  const {data: session} = useSession()
   const [loading, setLoading] = React.useState(false);
   const client = create({ url: "https://ipfs.infura.io:5001/api/v0" });
 
@@ -30,11 +33,8 @@ const Admin = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    await futureFlows.methods
-      .createQuestion(title, imageHash, description, resolverUrl, timestamp)
-      .send({
-        from: account,
-      });
+    txId = await createNewQuestion(title, imageHash, description, resolverUrl, timestamp)
+    await fcl.tx(txId).onceSealed();
     setLoading(false);
     setTitle("");
     setDescription("");
@@ -98,7 +98,7 @@ const Admin = () => {
               name="timestamp"
               // value={timestamp}
               onChange={(e) => {
-                setTimestamp(e.target.valueAsDate?.getTime());
+                setTimestamp(e.target.valueAsDate?.getTime() - (new Date().getTime()));
               }}
               className="w-full py-3 px-3 text-base text-gray-700 bg-gray-100 rounded-md focus:outline-none"
               autoComplete="off"

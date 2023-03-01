@@ -1,8 +1,13 @@
+import { getQuestion, USDCBalance } from "@/flow/scripts";
+import { addNoBet, addYesBet } from "@/flow/transactions";
+import fcl from "@onflow/fcl";
 import moment from "moment";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Img from "next/image";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
+import { userAuthorizationFunction } from "utils/authFunction";
 import Web3 from "web3";
 import ChartContainer from "../../../components/Chart/ChartContainer";
 import Navbar from "../../../components/Navbar";
@@ -12,6 +17,7 @@ import { useData } from "../../../contexts/DataContext";
 const Details = () => {
   const router = useRouter();
   const { id } = router.query;
+  const {data: session} = useSession()
   const { futureFlows, account, loadWeb3, loading, futureFlowsToken } = useData();
   const [market, setMarket] = useState();
   const [selected, setSelected] = useState("YES");
@@ -21,7 +27,7 @@ const Details = () => {
   const [input, setInput] = useState("");
 
   const getMarketData = useCallback(async () => {
-    var data = await futureFlows.methods.questions(id).call({ from: account });
+    var data = await getQuestion(id)
     setMarket({
       id: data.id,
       title: data.question,
@@ -37,26 +43,30 @@ const Details = () => {
   }, [account, id, futureFlows]);
 
   const handleTrade = async () => {
-    var bal = await futureFlows.methods.balanceOf(account).call();
+    var bal = await USDCBalance(session.user?.address)
     setButton("Please wait");
 
     if (input && selected === "YES") {
-      if (parseInt(input) < parseInt(Web3.utils.fromWei(bal, "ether"))) {
-        await futureFlows.methods
-          .approve(futureFlows._address, Web3.utils.toWei(input, "ether"))
-          .send({ from: account });
-        await futureFlows.methods
-          .addYesBet(id, Web3.utils.toWei(input, "ether"))
-          .send({ from: account });
+      if (parseInt(input) < bal) {
+        // await futureFlows.methods
+        //   .approve(futureFlows._address, Web3.utils.toWei(input, "ether"))
+        //   .send({ from: account });
+        // await futureFlows.methods
+        //   .addYesBet(id, Web3.utils.toWei(input, "ether"))
+        //   .send({ from: account });
+        var txId = await addYesBet(userAuthorizationFunction(session.user?.privateKey, session.user?.keyIndex, session.user?.address), bal, id)
+        await fcl.tx(txId).onceSealed();
       }
     } else if (input && selected === "NO") {
-      if (parseInt(input) < parseInt(Web3.utils.fromWei(bal, "ether"))) {
-        await futureFlowsToken.methods
-          .approve(futureFlows._address, Web3.utils.toWei(input, "ether"))
-          .send({ from: account });
-        await futureFlows.methods
-          .addNoBet(id, Web3.utils.toWei(input, "ether"))
-          .send({ from: account });
+      if (parseInt(input) < bal) {
+        // await futureFlowsToken.methods
+        //   .approve(futureFlows._address, Web3.utils.toWei(input, "ether"))
+        //   .send({ from: account });
+        // await futureFlows.methods
+        //   .addNoBet(id, Web3.utils.toWei(input, "ether"))
+        //   .send({ from: account });
+        var txId = await addNoBet(userAuthorizationFunction(session.user?.privateKey, session.user?.keyIndex, session.user?.address), bal, id)
+        await fcl.tx(txId).onceSealed();
       }
     }
     await getMarketData();
@@ -123,10 +133,7 @@ const Details = () => {
                     Total Volume
                   </span>
                   <span className="text-base font-semibold text-black whitespace-nowrap">
-                    {Web3.utils.fromWei(
-                      market?.totalAmount.toString() ?? "0",
-                      "ether"
-                    ) ?? 0}{" "}
+                    { market?.totalAmount.toString() ?? "0"}{" "}
                     FutureFlows
                   </span>
                 </div>

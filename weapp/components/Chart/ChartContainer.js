@@ -1,4 +1,5 @@
 // import Plotly from "plotly.js-dist-min";
+import { getGraph } from "@/flow/scripts";
 import dynamic from "next/dynamic"
 import React, { useEffect } from "react";
 import Web3 from "web3";
@@ -11,7 +12,7 @@ const ChartContainer = ({ questionId }) => {
   const { futureFlows } = useData();
 
   const fetchGraphData = async () => {
-    var data = await futureFlows.methods.getGraphData(questionId).call();
+    var data = await getGraph(questionId);
     var yesData = {
       time: [],
       amount: [],

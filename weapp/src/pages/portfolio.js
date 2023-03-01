@@ -1,3 +1,4 @@
+import { getGraph, getMarket } from "@/flow/scripts";
 import Head from "next/head";
 import React, { useCallback, useEffect, useState } from "react";
 import Web3 from "web3";
@@ -14,31 +15,28 @@ const Portfolio = () => {
   const [openPositions, setOpenPositions] = useState(0);
 
   const getMarkets = useCallback(async () => {
-    var totalQuestions = await futureFlows.methods
-      .totalQuestions()
-      .call({ from: account });
-    for (var i = 0; i < totalQuestions; i++) {
-      var questions = await futureFlows.methods
-        .questions(i)
-        .call({ from: account });
-      allQuestions.push({
-        id: questions.id,
-        title: questions.question,
-        imageHash: questions.creatorImageHash,
-        totalAmount: questions.totalAmount,
-        totalYes: questions.totalYesAmount,
-        totalNo: questions.totalNoAmount,
-        hasResolved: questions.eventCompleted,
-        endTimestamp: questions.endTimestamp,
-      });
-    }
+    var Questions = await getMarket();
+    // for (var i = 0; i < totalQuestions; i++) {
+    //   var questions = await futureFlows.methods
+    //     .questions(i)
+    //     .call({ from: account });
+    //   allQuestions.push({
+    //     id: questions.id,
+    //     title: questions.question,
+    //     imageHash: questions.creatorImageHash,
+    //     totalAmount: questions.totalAmount,
+    //     totalYes: questions.totalYesAmount,
+    //     totalNo: questions.totalNoAmount,
+    //     hasResolved: questions.eventCompleted,
+    //     endTimestamp: questions.endTimestamp,
+    //   });
+    // }
+    setAllQuestions(Questions)
 
     var dataArray = [];
     var totalPortValue = 0;
-    for (var i = 0; i < totalQuestions; i++) {
-      var data = await futureFlows.methods
-        .getGraphData(i)
-        .call({ from: account });
+    for (var i = 0; i < Questions.length; i++) {
+      var data = await getGraph(i)
       data["0"].forEach(() => {
         if (item[0] == account) {
           dataArray.push({

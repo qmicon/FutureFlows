@@ -7,6 +7,7 @@ import { useData } from "../../contexts/DataContext";
 import styles from "../styles/Home.module.css"
 import { useSession, signIn, signOut } from "next-auth/react"
 import LoadingOverlay from 'react-loading-overlay';
+import { getMarket, getTotalQuestions } from "@/flow/scripts";
 
 
 export default function Home() {
@@ -17,22 +18,20 @@ export default function Home() {
   const [loaderactive, setActive] = useState(false)
   const [loaderText, setLoaderText] = useState("");
   const getMarkets = useCallback(async () => {
-    var totalQuestions = await futureFlows.methods
-      .totalQuestions()
-      .call({ from: account });
+    var getMarket = await getMarket();
     var dataArray = [];
-    for (var i = 0; i < totalQuestions; i++) {
-      var data = await futureFlows.methods.questions(i).call({ from: account });
-      dataArray.push({
-        id: data.id,
-        title: data.question,
-        imageHash: data.creatorImageHash,
-        totalAmount: data.totalAmount,
-        totalYes: data.totalYesAmount,
-        totalNo: data.totalNoAmount,
-      });
-    }
-    setMarkets(dataArray);
+    // for (var i = 0; i < totalQuestions; i++) {
+    //   var data = await futureFlows.methods.questions(i).call({ from: account });
+    //   dataArray.push({
+    //     id: data.id,
+    //     title: data.question,
+    //     imageHash: data.creatorImageHash,
+    //     totalAmount: data.totalAmount,
+    //     totalYes: data.totalYesAmount,
+    //     totalNo: data.totalNoAmount,
+    //   });
+    // }
+    setMarkets(getMarket);
   }, [account, futureFlows]);
 
   useEffect(() => {
