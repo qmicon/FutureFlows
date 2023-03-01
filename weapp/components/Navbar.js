@@ -23,8 +23,8 @@ function Navbar() {
   
     const UnauthenticatedState = () => {
       return (
-        <div>
-          <button onClick={fcl.logIn}>Log In</button>
+        <div style = {{   display: "flex",justifyContent: "space-between"}}>
+          <button style={{padding: "16px"}} onClick={fcl.logIn}>Log In</button>
           <button onClick={fcl.signUp}>Sign Up</button>
         </div>
       )
