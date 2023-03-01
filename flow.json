@@ -44,6 +44,10 @@
 		"testnet": "access.devnet.nodes.onflow.org:9000"
 	},
 	"accounts": {
+		"Admin": {
+			"address": "0c2892735c4d7536",
+			"key": "77e29436206219d220f5f3de801b7d28da26a33f5a7840e00c2cb297b1cd4cb8"
+		},
 		"DepA": {
 			"address": "00cffdff2ed7d487",
 			"key": "9891c5cdf55b55577e2481487df647edf723f01fc1fe1ee70414265af8ffbae6"
@@ -71,10 +75,9 @@
 	},
 	"deployments": {
 		"testnet": {
-			"DepA": [
+			"Admin": [
 				"FutureFlows"
 			]
 		}
 	}
 }
- 
