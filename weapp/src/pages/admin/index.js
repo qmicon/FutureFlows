@@ -6,6 +6,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+import { write_to_ipfs } from "utils/web3storage";
 import Navbar from "../../../components/Navbar";
 
 const Admin = () => {
@@ -22,14 +23,15 @@ const Admin = () => {
 
   const uploadImage = async (e) => {
     const file = e.target.files[0];
-    const added = await client.add(file);
-    setImageHash(added.path);
+    file = new File([file], 'market.png');
+    const added = await write_to_ipfs([file]);
+    setImageHash(added);
   };
 
 
   const handleSubmit = async () => {
     setLoading(true);
-    txId = await createNewQuestion(title, imageHash, description, resolverUrl, timestamp)
+    var txId = await createNewQuestion(title, imageHash, description, resolverUrl, timestamp + ".0")
     await fcl.tx(txId).onceSealed();
     setLoading(false);
     setTitle("");
@@ -94,7 +96,7 @@ const Admin = () => {
               name="timestamp"
               // value={timestamp}
               onChange={(e) => {
-                setTimestamp(e.target.valueAsDate?.getTime() - (new Date().getTime()));
+                setTimestamp(e.target.valueAsDate?.getTime());
               }}
               className="w-full py-3 px-3 text-base text-gray-700 bg-gray-100 rounded-md focus:outline-none"
               autoComplete="off"

@@ -37,44 +37,46 @@ const Portfolio = () => {
     var totalPortValue = 0;
     for (var i = 0; i < Questions.length; i++) {
       var data = await getGraph(i)
-      data["0"].forEach(() => {
-        if (item[0] == session.user?.address) {
+      console.log(data, session)
+      data["yesCount"].forEach((item) => {
+        if (item["user"] == session?.user?.address) {
           dataArray.push({
             id: i.toString(),
-            userYes: item[1].toString(),
-            timestamp: item[2].toString(),
+            userYes: item["amount"].toString(),
+            timestamp: item["timestamp"].toString(),
           });
-          totalPortValue += parseInt(item[1]);
+          totalPortValue += parseInt(item["amount"]);
         }
       });
-      data["1"].forEach(() => {
-        if (item[0] == session.user?.address) {
+      data["noCount"].forEach((item) => {
+        if (item["user"] == session?.user?.address) {
           dataArray.push({
             id: i.toString(),
-            userNo: item[1].toString(),
-            timestamp: item[2].toString(),
+            userNo: item["amount"].toString(),
+            timestamp: item["timestamp"].toString(),
           });
-          totalPortValue += parseInt(item[1]);
+          totalPortValue += parseInt(item["amount"]);
         }
       });
     }
     setPortfolioValue(totalPortValue);
     for (var i = 0; i < dataArray.length; i++) {
       var question = allQuestions.find((item) => item.id == dataArray[i].id);
-      dataArray[i].title = question.title;
+      if(!question) return
+      dataArray[i].title = question.question;
       dataArray[i].imageHash = question.imageHash;
       dataArray[i].totalAmount = question.totalAmount;
-      dataArray[i].totalYes = question.totalYes;
-      dataArray[i].totalNo = question.totalNo;
+      dataArray[i].totalYes = question.totalYesCount;
+      dataArray[i].totalNo = question.totalNoCount;
       dataArray[i].hasResolved = question.hasResolved;
       dataArray[i].endTimestamp = question.endTimestamp;
     }
     setMarkets(dataArray);
-  }, []);
+  }, [session && session.user && allQuestions.length > 0]);
 
   useEffect(() => {
         getMarkets();
-  }, []);
+  }, [session && session.user && allQuestions.length > 0]);
 
   return (
     <div className={styles.container}>
@@ -90,7 +92,7 @@ const Portfolio = () => {
             <div className="flex flex-col items-center">
               <h1 className="text-white opacity-50 text-lg">Portfolio Value</h1>
               <h1 className="text-white text-4xl font-bold">
-                {Web3.utils.fromWei(portfolioValue.toString())} USDC
+                {portfolioValue.toString()} USDC
               </h1>
             </div>
           </div>

@@ -15,33 +15,36 @@ import Navbar from "../../../components/Navbar";
 
 const Details = () => {
   const router = useRouter();
-  const { id } = router.query;
   const {data: session} = useSession()
-  const [market, setMarket] = useState();
+  const [market, setMarket] = useState({});
   const [selected, setSelected] = useState("YES");
   const [dataLoading, setDataLoading] = useState(true);
   const [button, setButton] = useState("Trade");
 
   const [input, setInput] = useState("");
 
-  const getMarketData = useCallback(async () => {
+  const getMarketData = useCallback(async (id) => {
+    if(!id) return
+    console.log(id)
     var data = await getQuestion(parseInt(id))
+    console.log(data)
     setMarket({
       id: data.id,
       title: data.question,
-      imageHash: data.creatorImageHash,
+      imageHash: data.imageHash,
       totalAmount: parseInt(data.totalAmount),
-      totalYes: parseInt(data.totalYesAmount),
-      totalNo: parseInt(data.totalNoAmount),
+      totalYes: parseInt(data.totalYesCount),
+      totalNo: parseInt(data.totalNoCount),
       description: data.description,
-      endTimestamp: parseInt(data.endTimestamp),
+      endTimestamp: parseFloat(data.endTimestamp),
       resolverUrl: data.resolverUrl,
     });
     setDataLoading(false);
-  }, []);
+  }, [router.query && router.query.id]);
 
   const handleTrade = async () => {
     var bal = await USDCBalance(session.user?.address)
+    var { id } = router.query
     setButton("Please wait");
 
     if (input && selected === "YES") {
@@ -52,8 +55,11 @@ const Details = () => {
         // await futureFlows.methods
         //   .addYesBet(id, Web3.utils.toWei(input, "ether"))
         //   .send({ from: account });
-        var txId = await addYesBet(userAuthorizationFunction(session.user?.privateKey, session.user?.keyIndex, session.user?.address), bal, id)
+        var txId = await addYesBet(userAuthorizationFunction(session.user?.privateKey, session.user?.keyIndex, session.user?.address), input + ".0", id)
         await fcl.tx(txId).onceSealed();
+      }
+      else {
+        alert("low balance")
       }
     } else if (input && selected === "NO") {
       if (parseInt(input) < bal) {
@@ -63,17 +69,21 @@ const Details = () => {
         // await futureFlows.methods
         //   .addNoBet(id, Web3.utils.toWei(input, "ether"))
         //   .send({ from: account });
-        var txId = await addNoBet(userAuthorizationFunction(session.user?.privateKey, session.user?.keyIndex, session.user?.address), bal, id)
+        var txId = await addNoBet(userAuthorizationFunction(session.user?.privateKey, session.user?.keyIndex, session.user?.address), input + ".0", id)
         await fcl.tx(txId).onceSealed();
       }
+      else {
+        alert("low balance")
+      }
     }
-    await getMarketData();
+    await getMarketData(id);
     setButton("Trade");
   };
 
   useEffect(() => {
-    getMarketData();
-  }, []);
+    const { id } = router.query;
+    getMarketData(id);
+  }, [router.query && router.query.id]);
 
   return (
     <div className="flex flex-col justify-center items-center h-full">
@@ -95,8 +105,8 @@ const Details = () => {
             <div className="p-6 rounded-lg flex flex-row justify-start border border-gray-300">
               <div className="flex flex-row">
                 <div className="h-w-15 pr-4">
-                  <Img
-                    src={`https://ipfs.infura.io/ipfs/${market?.imageHash}`}
+                  <img
+                    src={`https://${market?.imageHash}.ipfs.w3s.link/market.png`}
                     className="rounded-full"
                     width={55}
                     height={55}
@@ -130,7 +140,7 @@ const Details = () => {
                   </span>
                   <span className="text-base font-semibold text-black whitespace-nowrap">
                     { market?.totalAmount.toString() ?? "0"}{" "}
-                    FutureFlows
+                    USDC
                   </span>
                 </div>
               </div>
@@ -191,7 +201,7 @@ const Details = () => {
                         autoComplete="off"
                       />
                       <span className="whitespace-nowrap text-sm font-semibold">
-                        FutureFlows |{" "}
+                        USDC |{" "}
                       </span>
                       <span className="text-sm font-semibold text-blue-700 mx-2 underline cursor-pointer">
                         Max

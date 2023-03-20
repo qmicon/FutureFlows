@@ -99,20 +99,26 @@ export default function Home() {
       <Navbar />
       </div>
       <main className="w-full flex flex-col sm:flex-row flex-wrap sm:flex-nowrap py-4 flex-grow max-w-5xl">
-        <div>
+        <div className="">
           {session && session.user ? (
 
             <div className={styles.card}>
               <div className={styles.cardContent}>
                 <h2>Email</h2>
                 <p>
+                <span className="text-sm">
                   {session.user.email}
+                  </span>
                 </p>
                 <p>
+                <span className="text-sm">
                   {session.user?.address} 
+                </span>
                 </p>
                 <p>
-                  {balance} USDC
+                <span className="text-sm">
+                  {parseFloat(balance).toFixed(2)} USDC
+                </span>
                 </p>
               </div>
             </div>
@@ -164,10 +170,10 @@ export default function Home() {
                 <MarketCard
                   id={market.id}
                   key={market.id}
-                  title={market.title}
+                  title={market.question}
                   totalAmount={market.totalAmount}
-                  totalYes={market.totalYes}
-                  totalNo={market.totalNo}
+                  totalYes={market.totalYesCount}
+                  totalNo={market.totalNoCount}
                   imageHash={market.imageHash}
                 />
               );

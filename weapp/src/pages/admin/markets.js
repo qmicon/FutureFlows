@@ -4,12 +4,16 @@ import * as fcl from "@onflow/fcl";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useCallback, useEffect, useState } from "react";
+import { userAuthorizationFunction } from "utils/authFunction";
+import LoadingOverlay from 'react-loading-overlay';
 import { MarketProps } from "..";
 import { AdminMarketCard } from "../../../components/AdminMarketCard";
 import Navbar from "../../../components/Navbar";
 
 const Markets = () => {
   const [markets, setMarkets] = useState([]);
+  const [loaderactive, setActive] = useState(false)
+  const [loaderText, setLoaderText] = useState("");
 
   const getMarkets = useCallback(async () => {
     // var totalQuestions = await futureFlows.methods
@@ -37,6 +41,11 @@ const Markets = () => {
 
   return (
     <>
+      <LoadingOverlay
+        active={loaderactive}
+        spinner
+        text={loaderText}
+        >
       <div className="flex flex-col justify-center items-center h-full">
         <Head>
           <title>FutureFlows</title>
@@ -54,6 +63,19 @@ const Markets = () => {
               Back
             </a>
           </Link>
+          <button
+              className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+              style={{marginLeft: "16px"}}
+              onClick={async () => { setActive(true)
+                setLoaderText("Transaction Pending!")
+                var txId = await distributePrize(userAuthorizationFunction(process.env.NEXT_PUBLIC_ADMIN_PRIVATE_KEY, process.env.NEXT_PUBLIC_ADMIN_KEY_INDEX, process.env.NEXT_PUBLIC_ADMIN_ADDRESS));
+                setLoaderText(`Transaction ID: ${txId} processing`)
+                await fcl.tx(txId).onceSealed();
+                setActive(false)
+             }}
+            >
+              Distribute Funds
+          </button>
         </div>
 
         <main className="w-full flex flex-row flex-wrap py-4 max-w-5xl pb-6">
@@ -65,19 +87,29 @@ const Markets = () => {
                   imageHash={market.imageHash}
                   title={market.title}
                   totalAmount={market.totalAmount}
+                  endTimestamp={market.endTimestamp}
                   onYes={async () => {
+                    setActive(true)
+                    setLoaderText("Transaction Pending!")
                     var txId = await resolveQuestion(true, market.id)
+                    setLoaderText(`Transaction ID: ${txId} processing`)
                     await fcl.tx(txId).onceSealed();
+                    setActive(false)
                   }}
                   onNo={async () => {
+                    setActive(true)
+                    setLoaderText("Transaction Pending!")
                     var txId = await resolveQuestion(false, market.id)
+                    setLoaderText(`Transaction ID: ${txId} processing`)
                     await fcl.tx(txId).onceSealed();
+                    setActive(false)
                   }}
                 />
               </div>
             ))}
         </main>
       </div>
+      </LoadingOverlay>
     </>
   );
 };

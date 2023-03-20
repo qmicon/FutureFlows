@@ -41,7 +41,8 @@
     "react-query": "^3.39.3",
     "sha3": "^2.1.4",
     "styled-components": "^5.3.6",
-    "web3": "^1.6.0"
+    "web3": "^1.6.0",
+    "web3.storage": "^4.5.4"
   },
   "devDependencies": {
     "@types/react": "17.0.33",

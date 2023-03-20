@@ -1,7 +1,12 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ["ipfs.infura.io"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
   },
   future: {
     webpack5: true, 

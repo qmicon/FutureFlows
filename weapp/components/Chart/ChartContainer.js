@@ -1,15 +1,16 @@
-// import Plotly from "plotly.js-dist-min";
 import { getGraph } from "@/flow/scripts";
 import dynamic from "next/dynamic"
 import React, { useEffect } from "react";
 
-const Plotly = dynamic(() => import("plotly.js-dist-min"), { ssr: false, })
-
 
 const ChartContainer = ({ questionId }) => {
 
+  const Plotly = null 
+
   const fetchGraphData = async () => {
+    if(Plotly === null) return
     var data = await getGraph(questionId);
+    console.log(data)
     var yesData = {
       time: [],
       amount: [],
@@ -18,19 +19,19 @@ const ChartContainer = ({ questionId }) => {
       time: [],
       amount: [],
     };
-    data["0"].forEach((item) => {
+    data["yesCount"].forEach((item) => {
       var sum = yesData.amount.reduce((a, b) => a + b, 0);
       yesData.amount.push(
-        sum + parseFloat(item[1])
+        sum + parseFloat(item["amount"])
       );
-      yesData.time.push(new Date(parseInt(item[2] + "000")));
+      yesData.time.push(new Date(parseInt(item["timestamp"] + "000")));
     });
-    data["1"].forEach((item) => {
+    data["noCount"].forEach((item) => {
       var sum = noData.amount.reduce((a, b) => a + b, 0);
       noData.amount.push(
-        sum + parseFloat(item[1])
+        sum + parseFloat(item["amount"])
       );
-      noData.time.push(new Date(parseInt(item[2] + "000")));
+      noData.time.push(new Date(parseInt(item["timestamp"] + "000")));
     });
 
     var yes = {
@@ -56,8 +57,9 @@ const ChartContainer = ({ questionId }) => {
   };
 
   useEffect(() => {
-    fetchGraphData();
-  });
+    import("plotly.js-dist-min").then((obj) => {Plotly = obj; fetchGraphData();})
+    
+  }, []);
 
   return (
     <>

@@ -12,6 +12,7 @@ export const PortfolioMarketCard = ({
   totalNo,
   totalAmount,
   hasResolved,
+  imageHash,
   timestamp,
   endTimestamp,
 }) => {
@@ -23,7 +24,12 @@ export const PortfolioMarketCard = ({
       <div className="flex flex-col border border-gray-300 rounded-lg p-5 hover:border-blue-700 cursor-pointer">
         <div className="flex flex-row space-x-5 pb-4">
           <div className="h-w-15">
-
+            <img
+              src={`https://${imageHash}.ipfs.w3s.link/market.png`}
+              className="rounded-full"
+              width={55}
+              height={55}
+            />
           </div>
           <span className="text-lg font-semibold">{title}</span>
         </div>
@@ -37,7 +43,7 @@ export const PortfolioMarketCard = ({
               Amount Added
             </span>
             <span className="text-base">
-              {Web3.utils.fromWei(userYes ?? userNo)}
+              {userYes ?? userNo} USDC
             </span>
           </div>
           <div className="flex flex-col space-y-1">
