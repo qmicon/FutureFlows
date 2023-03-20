@@ -24,14 +24,14 @@ const ChartContainer = ({ questionId }) => {
       yesData.amount.push(
         sum + parseFloat(item["amount"])
       );
-      yesData.time.push(new Date(parseInt(item["timestamp"] + "000")));
+      yesData.time.push(new Date(parseInt(item["timestamp"])*1000));
     });
     data["noCount"].forEach((item) => {
       var sum = noData.amount.reduce((a, b) => a + b, 0);
       noData.amount.push(
         sum + parseFloat(item["amount"])
       );
-      noData.time.push(new Date(parseInt(item["timestamp"] + "000")));
+      noData.time.push(new Date(parseInt(item["timestamp"])*1000));
     });
 
     var yes = {

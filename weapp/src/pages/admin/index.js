@@ -31,7 +31,7 @@ const Admin = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    var txId = await createNewQuestion(title, imageHash, description, resolverUrl, timestamp + ".0")
+    var txId = await createNewQuestion(title, imageHash, description, resolverUrl, parseInt(timestamp) + ".0")
     await fcl.tx(txId).onceSealed();
     setLoading(false);
     setTitle("");
@@ -96,7 +96,7 @@ const Admin = () => {
               name="timestamp"
               // value={timestamp}
               onChange={(e) => {
-                setTimestamp(e.target.valueAsDate?.getTime());
+                setTimestamp(e.target.valueAsDate?.getTime()/1000);
               }}
               className="w-full py-3 px-3 text-base text-gray-700 bg-gray-100 rounded-md focus:outline-none"
               autoComplete="off"

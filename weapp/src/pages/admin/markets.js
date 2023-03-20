@@ -87,7 +87,7 @@ const Markets = () => {
                   imageHash={market.imageHash}
                   title={market.title}
                   totalAmount={market.totalAmount}
-                  endTimestamp={market.endTimestamp}
+                  endTimestamp={parseInt(market.endTimestamp)*1000}
                   onYes={async () => {
                     setActive(true)
                     setLoaderText("Transaction Pending!")

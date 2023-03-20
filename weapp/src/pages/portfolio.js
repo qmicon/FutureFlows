@@ -69,7 +69,7 @@ const Portfolio = () => {
       dataArray[i].totalYes = question.totalYesCount;
       dataArray[i].totalNo = question.totalNoCount;
       dataArray[i].hasResolved = question.hasResolved;
-      dataArray[i].endTimestamp = question.endTimestamp;
+      dataArray[i].endTimestamp = parseInt(question.endTimestamp)*1000;
     }
     setMarkets(dataArray);
   }, [session && session.user && allQuestions.length > 0]);
@@ -109,7 +109,7 @@ const Portfolio = () => {
               userNo={market.userNo}
               key={market.id}
               hasResolved={market.hasResolved}
-              timestamp={market.timestamp}
+              timestamp={parseInt(market.timestamp)*1000}
               endTimestamp={market.endTimestamp}
             />
           ))}

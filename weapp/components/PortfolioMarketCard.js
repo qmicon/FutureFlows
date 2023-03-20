@@ -50,7 +50,7 @@ export const PortfolioMarketCard = ({
             <span className="text-xs text-gray-500 font-light">Added On</span>
             <span className="text-base">
               {timestamp
-                ? moment(parseInt(timestamp) * 1000).format(
+                ? moment(parseInt(timestamp)).format(
                     "MMMM D, YYYY HH:mm a"
                   )
                 : "N/A"}

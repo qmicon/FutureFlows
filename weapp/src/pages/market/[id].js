@@ -36,7 +36,7 @@ const Details = () => {
       totalYes: parseInt(data.totalYesCount),
       totalNo: parseInt(data.totalNoCount),
       description: data.description,
-      endTimestamp: parseFloat(data.endTimestamp),
+      endTimestamp: parseInt(data.endTimestamp)*1000,
       resolverUrl: data.resolverUrl,
     });
     setDataLoading(false);
@@ -129,7 +129,7 @@ const Details = () => {
                   <span className="text-base font-semibold text-black whitespace-nowrap">
                     {market?.endTimestamp
                       ? moment(
-                          parseInt((market?.endTimestamp).toFixed(0))
+                          parseInt((market?.endTimestamp))
                         ).format("MMMM D, YYYY")
                       : "N/A"}
                   </span>
